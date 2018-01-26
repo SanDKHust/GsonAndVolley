@@ -14,7 +14,6 @@ public class VolleyRequestQueue {
     private static VolleyRequestQueue sInstance;
     private RequestQueue mRequestQueue;
     private static Context sContext;
-    private RequestQueue requestQueue;
 
     private VolleyRequestQueue(Context context) {
         sContext = context;

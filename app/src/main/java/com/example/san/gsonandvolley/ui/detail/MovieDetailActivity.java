@@ -37,54 +37,59 @@ public class MovieDetailActivity extends BaseActivity implements IMovieDetail {
     }
 
     private void findViewsById() {
-        mImageMovie = findViewById(R.id.image_movie_detail);
-        mTextActor = findViewById(R.id.text_actor_movie_detail);
-        mTextCountry = findViewById(R.id.text_country_movie_detail);
-        mTextDirector = findViewById(R.id.text_director_movie_detail);
-        mTextGenre = findViewById(R.id.text_genre_movie_detail);
-        mTextLanguage = findViewById(R.id.text_language_movie_detail);
-        mTextProduction = findViewById(R.id.text_production_movie_detail);
-        mTextAwards = findViewById(R.id.text_awards_movie_detail);
-        mTextReleased = findViewById(R.id.text_released_movie_detail);
-        mTextTitle = findViewById(R.id.text_title_movie_detail);
-        mTextType = findViewById(R.id.text_type_movie_detail);
-        mTextWebsite = findViewById(R.id.text_website_movie_detail);
-        mTextYear = findViewById(R.id.text_year_movie_detail);
-        mTextWriter = findViewById(R.id.text_writer_movie_detail);
-        mTextBoxOffice = findViewById(R.id.text_boxOffice_movie_detail);
-        mTextRated = findViewById(R.id.text_rated_movie_detail);
-        mTextRuntime = findViewById(R.id.text_runtime_movie_detail);
-        mTextMetascore = findViewById(R.id.text_metascore_movie_detail);
-        mTextPlot = findViewById(R.id.text_plot_movie_detail);
+        mImageMovie = (ImageView) findViewById(R.id.image_movie_detail);
+        mTextActor = (TextView) findViewById(R.id.text_actor_movie_detail);
+        mTextCountry = (TextView) findViewById(R.id.text_country_movie_detail);
+        mTextDirector = (TextView) findViewById(R.id.text_director_movie_detail);
+        mTextGenre = (TextView) findViewById(R.id.text_genre_movie_detail);
+        mTextLanguage = (TextView) findViewById(R.id.text_language_movie_detail);
+        mTextProduction = (TextView) findViewById(R.id.text_production_movie_detail);
+        mTextAwards = (TextView) findViewById(R.id.text_awards_movie_detail);
+        mTextReleased = (TextView) findViewById(R.id.text_released_movie_detail);
+        mTextTitle = (TextView) findViewById(R.id.text_title_movie_detail);
+        mTextType = (TextView) findViewById(R.id.text_type_movie_detail);
+        mTextWebsite = (TextView) findViewById(R.id.text_website_movie_detail);
+        mTextYear = (TextView) findViewById(R.id.text_year_movie_detail);
+        mTextWriter = (TextView) findViewById(R.id.text_writer_movie_detail);
+        mTextBoxOffice = (TextView) findViewById(R.id.text_boxOffice_movie_detail);
+        mTextRated = (TextView) findViewById(R.id.text_rated_movie_detail);
+        mTextRuntime = (TextView) findViewById(R.id.text_runtime_movie_detail);
+        mTextMetascore = (TextView) findViewById(R.id.text_metascore_movie_detail);
+        mTextPlot = (TextView) findViewById(R.id.text_plot_movie_detail);
     }
 
     @Override
-    public void onRequestSearhSuccess(Movie movie) {
+    public void onRequestSearhSuccess(final Movie movie) {
         hideDialog();
-        Picasso.with(MovieDetailActivity.this)
-                .load(movie.getPoster())
-                .placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_image_error)
-                .fit()
-                .into(mImageMovie);
-        mTextActor.setText("Actor: " + movie.getActors());
-        mTextCountry.setText("Country: " + movie.getCountry());
-        mTextDirector.setText("Director: " + movie.getDirector());
-        mTextGenre.setText("Genre: " + movie.getGenre());
-        mTextLanguage.setText("Language: " + movie.getLanguage());
-        mTextProduction.setText("Production: " + movie.getProduction());
-        mTextAwards.setText("Awards: " + movie.getAwards());
-        mTextReleased.setText("Released: " + movie.getReleased());
-        mTextTitle.setText("Title: " + movie.getTitle());
-        mTextType.setText("Type: " + movie.getType());
-        mTextWebsite.setText("Website: " + movie.getWebsite());
-        mTextYear.setText("Year: " + movie.getYear());
-        mTextWriter.setText("Writer: " + movie.getWriter());
-        mTextRuntime.setText("Runtime: " + movie.getRuntime());
-        mTextRated.setText("Rated: " + movie.getRated());
-        mTextPlot.setText("Plot: " + movie.getPlot());
-        mTextMetascore.setText("Meta score: " + movie.getMetascore());
-        mTextBoxOffice.setText("BoxOffice: " + movie.getBoxOffice());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Picasso.with(MovieDetailActivity.this)
+                        .load(movie.getPoster())
+                        .placeholder(R.drawable.ic_placeholder)
+                        .error(R.drawable.ic_image_error)
+                        .fit()
+                        .into(mImageMovie);
+                mTextActor.setText("Actor: " + movie.getActors());
+                mTextCountry.setText("Country: " + movie.getCountry());
+                mTextDirector.setText("Director: " + movie.getDirector());
+                mTextGenre.setText("Genre: " + movie.getGenre());
+                mTextLanguage.setText("Language: " + movie.getLanguage());
+                mTextProduction.setText("Production: " + movie.getProduction());
+                mTextAwards.setText("Awards: " + movie.getAwards());
+                mTextReleased.setText("Released: " + movie.getReleased());
+                mTextTitle.setText("Title: " + movie.getTitle());
+                mTextType.setText("Type: " + movie.getType());
+                mTextWebsite.setText("Website: " + movie.getWebsite());
+                mTextYear.setText("Year: " + movie.getYear());
+                mTextWriter.setText("Writer: " + movie.getWriter());
+                mTextRuntime.setText("Runtime: " + movie.getRuntime());
+                mTextRated.setText("Rated: " + movie.getRated());
+                mTextPlot.setText("Plot: " + movie.getPlot());
+                mTextMetascore.setText("Meta score: " + movie.getMetascore());
+                mTextBoxOffice.setText("BoxOffice: " + movie.getBoxOffice());
+            }
+        });
     }
 
     @Override

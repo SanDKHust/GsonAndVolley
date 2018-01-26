@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <ImageButton
+        android:id="@+id/button_network_error"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_network_error"
+        android:layout_height="150dp"
+        android:layout_width="150dp"/>
+    <TextView
+        android:id="@id/button_network_error"
+        android:text="Network error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
