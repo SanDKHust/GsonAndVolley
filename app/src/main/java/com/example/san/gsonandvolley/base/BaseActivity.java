@@ -28,7 +28,7 @@ public class BaseActivity extends AppCompatActivity /*implements NetworkChangeRe
     private ACProgressFlower mDialog;
     private NetworkChangeReceiver mNetworkChangeReceiver;
     private Dialog mDialogMessengeNetwork = null;
-    private Merlin mMerlin;
+    //private Merlin mMerlin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,9 +38,9 @@ public class BaseActivity extends AppCompatActivity /*implements NetworkChangeRe
                 .text("Loading...")
                 .fadeColor(Color.DKGRAY).build();
         super.onCreate(savedInstanceState);
-        mMerlin = new Merlin.Builder().withAllCallbacks().build(getApplicationContext());
-        mMerlin.registerConnectable(mRegisterConnectable);
-        mMerlin.registerDisconnectable(mDisconnectable);
+//        mMerlin = new Merlin.Builder().withAllCallbacks().build(getApplicationContext());
+//        mMerlin.registerConnectable(mRegisterConnectable);
+//        mMerlin.registerDisconnectable(mDisconnectable);
     }
 
     private Connectable mRegisterConnectable = new Connectable() {
@@ -67,14 +67,14 @@ public class BaseActivity extends AppCompatActivity /*implements NetworkChangeRe
     @Override
     protected void onResume() {
         super.onResume();
-        mMerlin.bind();
+   //     mMerlin.bind();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 //        unregisterReceiver(mNetworkChangeReceiver);
-        mMerlin.unbind();
+     //   mMerlin.unbind();
     }
 
 //    private void innitBroadcastReceiver() {

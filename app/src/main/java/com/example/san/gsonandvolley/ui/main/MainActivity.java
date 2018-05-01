@@ -30,6 +30,8 @@ import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.example.san.gsonandvolley.R;
 import com.example.san.gsonandvolley.base.BaseActivity;
 import com.example.san.gsonandvolley.base.CustomLoadMoreView;
+import com.example.san.gsonandvolley.base.DatabaseSqlite;
+import com.example.san.gsonandvolley.model.movie.Movie;
 import com.example.san.gsonandvolley.model.movie.Search;
 import com.example.san.gsonandvolley.ui.detail.MovieDetailActivity;
 import com.example.san.gsonandvolley.untils.CheckConnectionInternet;
@@ -54,6 +56,7 @@ public class MainActivity extends BaseActivity implements IMainView {
     private int mPage = 1;
     private View mFooterView = null, mReplaceView = null;
     private boolean isLoadMore = true, isLoading = false;
+    private DatabaseSqlite mDatabaseSqlite;
 
     //    List<MovieTypeSection> mListTypeMovie = null;
 //    List<MovieTypeSection> mListPageMovie = null;
@@ -61,6 +64,8 @@ public class MainActivity extends BaseActivity implements IMainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mDatabaseSqlite = new DatabaseSqlite(getApplicationContext());
+        mDatabaseSqlite.openDatabase();
         findViewsById();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mSearchView.setOnSearchListener(mSearchClick);
@@ -157,7 +162,7 @@ public class MainActivity extends BaseActivity implements IMainView {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if (mPage != 1 && isLoading != true && isLoadMore
+            if (mPage != 1 && !isLoading && isLoadMore
                     && ((mLayoutManager.findLastCompletelyVisibleItemPosition() + 1) == mLayoutManager.getItemCount())) {
                 isLoading = true;
                 if (mFooterView == null)
@@ -190,8 +195,14 @@ public class MainActivity extends BaseActivity implements IMainView {
             mPage = 1;
             isLoading = true;
             isLoadMore = true;
-            mManPst.getDataMovie(MainActivity.this, S_PARAMETER, currentQuery, "1");
-            showDialog();
+            if(CheckConnectionInternet.isNetworkConnected(getApplicationContext())) {mManPst.getDataMovie(MainActivity.this, S_PARAMETER, currentQuery, "1");
+                showDialog();
+            }else {
+                isLoading = false;
+                isLoadMore = false;
+                List<Search> searches = mDatabaseSqlite.getListMovieByTitle(currentQuery);
+                mAdapter.setNewData(searches);
+            }
         }
     };
 
@@ -267,6 +278,9 @@ public class MainActivity extends BaseActivity implements IMainView {
                 mAdapter.setNewData(movies);
             }
             mPage++;
+            for (Search movie: movies){
+                mDatabaseSqlite.insetMovie(movie);
+            }
         } else {
             mAdapter.loadMoreFail();
         }
@@ -275,6 +289,8 @@ public class MainActivity extends BaseActivity implements IMainView {
             isLoadMore = false;
             mAdapter.loadMoreEnd();
         }
+
+
 
         isLoading = false;
         hideDialog();

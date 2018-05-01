@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
+import com.example.san.gsonandvolley.base.HttpConnectionHelper;
 import com.example.san.gsonandvolley.base.OkHttpHelper;
 import com.example.san.gsonandvolley.base.VolleyHelper;
 import com.example.san.gsonandvolley.model.movie.Example;
@@ -44,11 +45,11 @@ public class MainPst implements IMainPst {
         params.put("page", page);
         final String url = VolleyUntils.makeUrl(HOST, params);
         if (parameter.equals(S_PARAMETER)) {
-            new OkHttpHelper<Example>(Example.class, new OkHttpHelper.IOkHttpResponse<Example>() {
+            new HttpConnectionHelper<Example>(Example.class, new HttpConnectionHelper.IOkHttpResponse<Example>() {
                 @Override
                 public void onSuccess(Example response) {
                     if(response.getResponse().equals("False")){
-                        new OkHttpHelper<ResponseError>(ResponseError.class, new OkHttpHelper.IOkHttpResponse<ResponseError>() {
+                        new HttpConnectionHelper<ResponseError>(ResponseError.class, new HttpConnectionHelper.IOkHttpResponse<ResponseError>() {
                             @Override
                             public void onSuccess(ResponseError response) {
                                 mIMainView.onRequestSearhError(response.getError());
@@ -58,22 +59,20 @@ public class MainPst implements IMainPst {
                             public void onError(String error) {
                                 mIMainView.onRequestSearhError(error);
                             }
-                        }).execute(new String[]{url});
+                        });
                     }else mIMainView.onRequestSearhSuccess(response.getSearch(),response.getTotalResults());
                 }
 
                 @Override
                 public void onError(String error) {
-                    mIMainView.onRequestSearhError(error);
+
                 }
             }).execute(new String[]{url});
-///*********Asynchronous********///
-//            new OkHttpHelper<Example>().get(url, Example.class, new OkHttpHelper.IOkHttpResponse<Example>() {
+//            new OkHttpHelper<Example>(Example.class, new OkHttpHelper.IOkHttpResponse<Example>() {
 //                @Override
 //                public void onSuccess(Example response) {
-//                    if(response == null) mIMainView.onRequestSearhError("Request Error");
-//                    else if (response.getResponse().equals("False")) {
-//                        new OkHttpHelper<ResponseError>().get(url, ResponseError.class, new OkHttpHelper.IOkHttpResponse<ResponseError>() {
+//                    if(response.getResponse().equals("False")){
+//                        new OkHttpHelper<ResponseError>(ResponseError.class, new OkHttpHelper.IOkHttpResponse<ResponseError>() {
 //                            @Override
 //                            public void onSuccess(ResponseError response) {
 //                                mIMainView.onRequestSearhError(response.getError());
@@ -83,55 +82,80 @@ public class MainPst implements IMainPst {
 //                            public void onError(String error) {
 //                                mIMainView.onRequestSearhError(error);
 //                            }
-//                        });
-//                    } else {
-//                        mIMainView.onRequestSearhSuccess(response.getSearch(), response.getTotalResults());
-//                    }
+//                        }).execute(new String[]{url});
+//                    }else mIMainView.onRequestSearhSuccess(response.getSearch(),response.getTotalResults());
 //                }
 //
 //                @Override
 //                public void onError(String error) {
 //                    mIMainView.onRequestSearhError(error);
 //                }
-//            });
-
-
-///*********Volley********///
-//            new VolleyHelper<Example>().get(context, url, null, Example.class, new VolleyHelper.IVolleyResponse<Example>() {
-//                @Override
-//                public void onSuccess(Example response) {
-//                    if (response != null){
-//                         if(response.getResponse().equals("False")){
-//                            new VolleyHelper<ResponseError>().get(context, url, null, ResponseError.class, new VolleyHelper.IVolleyResponse<ResponseError>() {
+//            }).execute(new String[]{url});
+/////*********Asynchronous********///
+////            new OkHttpHelper<Example>().get(url, Example.class, new OkHttpHelper.IOkHttpResponse<Example>() {
+////                @Override
+////                public void onSuccess(Example response) {
+////                    if(response == null) mIMainView.onRequestSearhError("Request Error");
+////                    else if (response.getResponse().equals("False")) {
+////                        new OkHttpHelper<ResponseError>().get(url, ResponseError.class, new OkHttpHelper.IOkHttpResponse<ResponseError>() {
+////                            @Override
+////                            public void onSuccess(ResponseError response) {
+////                                mIMainView.onRequestSearhError(response.getError());
+////                            }
+////
+////                            @Override
+////                            public void onError(String error) {
+////                                mIMainView.onRequestSearhError(error);
+////                            }
+////                        });
+////                    } else {
+////                        mIMainView.onRequestSearhSuccess(response.getSearch(), response.getTotalResults());
+////                    }
+////                }
+////
+////                @Override
+////                public void onError(String error) {
+////                    mIMainView.onRequestSearhError(error);
+////                }
+////            });
 //
-//                                @Override
-//                                public void onSuccess(ResponseError response) {
-//                                    mIMainView.onRequestSearhError(response.getError());
-//                                }
 //
-//                                @Override
-//                                public void onError(VolleyError error) {
-//                                    mIMainView.onRequestSearhError(error.getMessage());
-//                                }
-//                            });
-//                        } else{
-//                            mIMainView.onRequestSearhSuccess(response.getSearch(),response.getTotalResults());
-//                        }
-//                    }else {
-//                        mIMainView.onRequestSearhError("Request Error");
-//                    }
-//                }
-//
-//                @Override
-//                public void onError(VolleyError error) {
-//                    Log.i("HAHA", "onError: ");
-//                    String error_msg = error.getMessage();
-//                    mIMainView.onRequestSearhError(error_msg);
-//                }
-//            });
+/////*********Volley********///
+////            new VolleyHelper<Example>().get(context, url, null, Example.class, new VolleyHelper.IVolleyResponse<Example>() {
+////                @Override
+////                public void onSuccess(Example response) {
+////                    if (response != null){
+////                         if(response.getResponse().equals("False")){
+////                            new VolleyHelper<ResponseError>().get(context, url, null, ResponseError.class, new VolleyHelper.IVolleyResponse<ResponseError>() {
+////
+////                                @Override
+////                                public void onSuccess(ResponseError response) {
+////                                    mIMainView.onRequestSearhError(response.getError());
+////                                }
+////
+////                                @Override
+////                                public void onError(VolleyError error) {
+////                                    mIMainView.onRequestSearhError(error.getMessage());
+////                                }
+////                            });
+////                        } else{
+////                            mIMainView.onRequestSearhSuccess(response.getSearch(),response.getTotalResults());
+////                        }
+////                    }else {
+////                        mIMainView.onRequestSearhError("Request Error");
+////                    }
+////                }
+////
+////                @Override
+////                public void onError(VolleyError error) {
+////                    Log.i("HAHA", "onError: ");
+////                    String error_msg = error.getMessage();
+////                    mIMainView.onRequestSearhError(error_msg);
+////                }
+////            });
         } else if (parameter.equals(I_PARAMETER)) {
 
-            new OkHttpHelper<Movie>(Movie.class, new OkHttpHelper.IOkHttpResponse<Movie>() {
+            new HttpConnectionHelper<Movie>(Movie.class, new HttpConnectionHelper.IOkHttpResponse<Movie>() {
                 @Override
                 public void onSuccess(Movie response) {
                     mIMovieDetail.onRequestSearhSuccess(response);
@@ -142,6 +166,18 @@ public class MainPst implements IMainPst {
                     mIMovieDetail.onRequestSearhError(error);
                 }
             }).execute(new String[]{url});
+
+//            new OkHttpHelper<Movie>(Movie.class, new OkHttpHelper.IOkHttpResponse<Movie>() {
+//                @Override
+//                public void onSuccess(Movie response) {
+//                    mIMovieDetail.onRequestSearhSuccess(response);
+//                }
+//
+//                @Override
+//                public void onError(String error) {
+//                    mIMovieDetail.onRequestSearhError(error);
+//                }
+//            }).execute(new String[]{url});
 
 ///*********Asynchronous********///
 //            new OkHttpHelper<Movie>().get(url, Movie.class, new OkHttpHelper.IOkHttpResponse<Movie>() {

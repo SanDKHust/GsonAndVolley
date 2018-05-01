@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
- * Created by MSI GL627RD on 1/12/2018.
+ * Created by San on 1/12/2018.
  */
 
 public class GsonRequest<T> extends Request<T> {
@@ -48,7 +48,6 @@ public class GsonRequest<T> extends Request<T> {
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            Log.i("HAHA", "parseNetworkResponse: "+json);
             return Response.success(
                     gson.fromJson(json, clazz),
                     HttpHeaderParser.parseCacheHeaders(response));

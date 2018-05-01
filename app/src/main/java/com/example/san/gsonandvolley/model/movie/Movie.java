@@ -86,6 +86,9 @@ public class Movie {
     @Expose
     private String response;
 
+    public Movie() {
+    }
+
     public String getTitle() {
         return title;
     }
